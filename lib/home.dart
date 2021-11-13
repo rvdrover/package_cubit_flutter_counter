@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'cubit/counter_cubit.dart';
+
 class MyHomePage extends StatelessWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
@@ -13,22 +15,25 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
       ),
-      body: BlocBuilder<, int>(builder: (context, state) {
-        return Center(
-          child: Text(
-            "$state",
-            style: const TextStyle(
-              fontSize: 60,
-              fontWeight: FontWeight.bold,
-            ),
+      body:  Center(
+          child: BlocBuilder<CounterCubit, int>(
+            builder: (context, state) {
+              return Text(
+                      "$state",
+                      style: const TextStyle(
+                        fontSize: 60,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    );
+            },
           ),
-        );
-      }),
+        ),
+      
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           FloatingActionButton(
-            onPressed: () ,
+            onPressed: () => context.read<CounterCubit>().increment(),
             tooltip: 'Increment',
             child: const Icon(Icons.add),
           ),
@@ -36,7 +41,7 @@ class MyHomePage extends StatelessWidget {
             width: 20,
           ),
           FloatingActionButton(
-            onPressed: () ,
+            onPressed: () => context.read<CounterCubit>().decrement(),
             tooltip: 'Decrement',
             child: const Icon(Icons.remove),
           )
